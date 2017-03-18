@@ -28,7 +28,7 @@ class StoreSpider(ss.CrawlSpider):
         return self.parse_item(response)
 
     def parse_item(self, response):
-        print(response.url)
+        #print(response.url)
         selected = Selector(response=response).xpath(
             '//div[contains(@class, "c-group f-wrap-items context-list-page")]')
         sections = selected.xpath(

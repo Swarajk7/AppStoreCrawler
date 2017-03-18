@@ -39,7 +39,7 @@ class AppSpider(ss.CrawlSpider):
                     rating_list.append(rating)
                 except:
                     pass
-            print(rating_list)
+            #print(rating_list)
             product_id = response.url.split('/')[-1]
             requestor = ReviewRequester()
             requestor.setProductId(product_id)
@@ -63,3 +63,4 @@ class AppSpider(ss.CrawlSpider):
         except: 
             print("Failed for: "+response.url)
             time.sleep(10)
+        print(product_id)

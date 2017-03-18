@@ -14,8 +14,8 @@ BOT_NAME = 'appstore'
 SPIDER_MODULES = ['appstore.spiders']
 NEWSPIDER_MODULE = 'appstore.spiders'
 
-LOG_LEVEL = 'INFO'
-LOG_ENABLED = False
+LOG_LEVEL = 'ERROR'
+LOG_ENABLED = True
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent

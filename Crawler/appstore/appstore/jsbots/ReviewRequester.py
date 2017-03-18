@@ -48,8 +48,8 @@ class ReviewRequester:
                 review_['UserName'] = z['UserName']
                 review_['Rating'] = z['Rating']['AverageRating']
                 review_['Title'] = z['Title']
-            except:
-                pass
+            except Exception as ex:
+                raise ex
             return review_
         return list(map(filter, self.result))
 
