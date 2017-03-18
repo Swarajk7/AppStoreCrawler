@@ -20,7 +20,7 @@ class AppstorePipeline(object):
 
     def close_spider(self, spider):
         file = open('items.json', 'w')
-        json.dump(self.ar[:5], file, indent=2)
+        json.dump(self.ar, file, indent=2)
         file.close()
 
     def process_item(self, item, spider):
