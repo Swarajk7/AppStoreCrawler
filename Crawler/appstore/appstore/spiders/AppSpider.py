@@ -23,39 +23,43 @@ class AppSpider(ss.CrawlSpider):
         return self.parse_item(response)
 
     def parse_item(self, response):
-        ratings_div = response.xpath("//div[@class='m-histogram']")
-        soup = BeautifulSoup(ratings_div[0].extract(), 'html.parser')
-        li_list = soup.ul.find_all('li')
-        rating_list = []
-        item = AppItem()
-        for li in li_list:
-            try:
-                rating = {}
-                stars = li.find('span', {'class': 'x-screen-reader'}).text
-                rat = li.find_all('span')[-1].text
-                rating['stars'] = stars
-                rating['count'] = rat
-                rating_list.append(rating)
-            except:
-                pass
-        print(rating_list)
-        product_id = response.url.split('/')[-1]
-        requestor = ReviewRequester()
-        requestor.setProductId(product_id)
-        requestor.crawlReviews()
-        reviews = requestor.processAndGetResult()
-        item['product_id'] = product_id
-        item['ratings'] = rating_list
-        item['reviews'] = reviews
-        category_p = response.xpath("//p[@id='category-toggle-target']")
-        soup = BeautifulSoup(category_p[0].extract(), 'html.parser')
-        item['category'] = soup.span.text.strip()
-        description_p = response.xpath("//p[@id='product-description']")
-        soup = BeautifulSoup(description_p[0].extract(), 'html.parser')
-        item['description'] = soup.text.replace(
-            "\r\n", " ").replace("\n", " ").strip()
-        title_h1 = response.xpath("//h1[@id='page-title']")
-        soup = BeautifulSoup(title_h1[0].extract(), 'html.parser')
-        item['name'] = soup.text.strip()
-        yield item
-        time.sleep(5)
+        try:
+            ratings_div = response.xpath("//div[@class='m-histogram']")
+            soup = BeautifulSoup(ratings_div[0].extract(), 'html.parser')
+            li_list = soup.ul.find_all('li')
+            rating_list = []
+            item = AppItem()
+            for li in li_list:
+                try:
+                    rating = {}
+                    stars = li.find('span', {'class': 'x-screen-reader'}).text
+                    rat = li.find_all('span')[-1].text
+                    rating['stars'] = stars
+                    rating['count'] = rat
+                    rating_list.append(rating)
+                except:
+                    pass
+            print(rating_list)
+            product_id = response.url.split('/')[-1]
+            requestor = ReviewRequester()
+            requestor.setProductId(product_id)
+            requestor.crawlReviews()
+            reviews = requestor.processAndGetResult()
+            item['product_id'] = product_id
+            item['ratings'] = rating_list
+            item['reviews'] = reviews
+            category_p = response.xpath("//p[@id='category-toggle-target']")
+            soup = BeautifulSoup(category_p[0].extract(), 'html.parser')
+            item['category'] = soup.span.text.strip()
+            description_p = response.xpath("//p[@id='product-description']")
+            soup = BeautifulSoup(description_p[0].extract(), 'html.parser')
+            item['description'] = soup.text.replace(
+                "\r\n", " ").replace("\n", " ").strip()
+            title_h1 = response.xpath("//h1[@id='page-title']")
+            soup = BeautifulSoup(title_h1[0].extract(), 'html.parser')
+            item['name'] = soup.text.strip()
+            yield item
+            time.sleep(5)
+        except: 
+            print("Failed for: "+response.url)
+            time.sleep(10)

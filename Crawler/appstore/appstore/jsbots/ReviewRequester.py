@@ -33,7 +33,7 @@ class ReviewRequester:
                     current += self.skip
                     self.result += items['Items']
                 except:
-                    print('Failed')
+                    print('Failed' + self.productId)
             print(count)
 
     def processAndGetResult(self):
@@ -41,12 +41,15 @@ class ReviewRequester:
             return
 
         def filter(z):
-            review_ = {}
-            review_['ReviewId'] = z['ReviewId']
-            review_['ReviewText'] = z['ReviewText']
-            review_['UserName'] = z['UserName']
-            review_['Rating'] = z['Rating']['AverageRating']
-            review_['Title'] = z['Title']
+            try:
+                review_ = {}
+                review_['ReviewId'] = z['ReviewId']
+                review_['ReviewText'] = z['ReviewText']
+                review_['UserName'] = z['UserName']
+                review_['Rating'] = z['Rating']['AverageRating']
+                review_['Title'] = z['Title']
+            except:
+                pass
             return review_
         return list(map(filter, self.result))
 
