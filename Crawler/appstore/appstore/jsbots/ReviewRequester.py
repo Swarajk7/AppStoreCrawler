@@ -8,6 +8,7 @@ class ReviewRequester:
         self.skip = 25
         self.productId = None
         self.result = []
+        self.maxCount = 3000
 
     def setProductId(self, productId):
         self.productId = productId
@@ -27,13 +28,15 @@ class ReviewRequester:
                 try:
                     url = self.getUrl(current)
                     items = requests.get(url, headers=headers).json()
-                    if len(items['Items']) == 0:
+                    if len(items['Items']) == 0 or current > self.maxCount:
                         break
                     count += 1
                     current += self.skip
                     self.result += items['Items']
+                    print(self.productId + " " + str(current))
                 except:
                     print('Failed' + self.productId)
+                    break
             print(count)
 
     def processAndGetResult(self):

@@ -23,6 +23,7 @@ class AppSpider(ss.CrawlSpider):
         return self.parse_item(response)
 
     def parse_item(self, response):
+        print(response.url)
         try:
             ratings_div = response.xpath("//div[@class='m-histogram']")
             soup = BeautifulSoup(ratings_div[0].extract(), 'html.parser')
@@ -63,4 +64,4 @@ class AppSpider(ss.CrawlSpider):
         except: 
             print("Failed for: "+response.url)
             time.sleep(10)
-        print(product_id)
+        print(response.url + "Completed")
