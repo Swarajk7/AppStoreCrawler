@@ -39,10 +39,10 @@ class AppPipeline(object):
 
     def open_spider(self, spider):
         self.file = open(r'output\ITEMS.json', 'w')
-        self.file.write('['+"\n")
+        self.file.write('[' + "\n")
 
     def close_spider(self, spider):
-        self.file.write(']'+"\n")
+        self.file.write(']' + "\n")
         self.file.close()
 
     def process_item(self, item, spider):
@@ -51,4 +51,6 @@ class AppPipeline(object):
             line = "," + line
         self.file.write(line)
         self.is_first = False
+        with open(r'output\Review' + item['product_id'] + '.json', 'w') as fp:
+            json.dump(dict(item), fp)
         return item
